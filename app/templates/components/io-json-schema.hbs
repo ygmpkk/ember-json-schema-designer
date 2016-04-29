@@ -1,0 +1,51 @@
+{{#io-row}}
+  {{! -- Properties 列表-- }}
+  {{io-input type="text" value=schema.title placeholder="标题"}}
+  {{io-input type="text" value=schema.description placeholder="描述"}}
+  {{#io-select value=schema.type placeholder="Schema类型"}}
+    {{#each schemaTypes as |type|}}
+      {{#io-option value=type.value}} {{type.name}} {{/io-option}}
+    {{/each}}
+  {{/io-select}}
+
+  {{#each schema.properties as |prop index|}}
+    <div class="row" style="margin: 20px 0">
+      {{io-input type="text" value=prop.name placeholder="字段名"}}
+      {{io-input type="text" value=prop.description placeholder="字段描述"}}
+      {{#io-select value=prop.type placeholder="字段类型"}}
+        {{#each types as |type|}}
+          {{#io-option value=type.value}} {{type.name}} {{/io-option}}
+        {{/each}}
+      {{/io-select}}
+
+      {{! -- 字段校验选项 -- }}
+      {{#each prop.properties as |value idx|}}
+        {{#io-row}}
+          {{#io-col span=6}}
+            {{#io-select value=value.name placeholder="校验类型"}}
+              {{#each propertyType as |p|}}
+                {{#io-option value=p.value}} {{p.name}} {{/io-option}}
+              {{/each}}
+            {{/io-select}}
+          {{/io-col}}
+
+          {{#io-col span=18}}
+            {{io-input type="text" value=value.value placeholder="校验值"}}
+          {{/io-col}}
+        {{/io-row}}
+      {{/each}}
+      <button class="io-btn io-btn-default" {{action "addProperty" index}}> 
+        {{io-icon type="plus"}} 
+      </button>
+    </div>
+  {{/each}}
+  <button class="io-btn io-btn-default" {{action "addField"}}> 
+    {{io-icon type="plus-circle-o"}} 
+  </button>
+{{/io-row}}
+<button class="io-btn io-btn-primary" {{action "save"}}> 
+  {{io-icon type="save"}} 
+</button>
+
+{{#io-modal}}
+{{/io-modal}}
